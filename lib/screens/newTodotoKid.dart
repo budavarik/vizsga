@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '/providers/tasks.dart';
 import 'select_kid_screen.dart';
+import 'package:rest_api_login/utils/util.dart';
 import '/providers/tasks.dart';
 
 class newTodoToKid extends StatefulWidget {
@@ -21,6 +22,7 @@ class _newTodoToKidState extends State<newTodoToKid> {
   final String taskId;
   final String taskName;
   Tasks tasks = new Tasks();
+  Util util = new Util();
   DateTime selectedFromDate = DateTime.now();
   DateTime selectedToDate = DateTime.now();
   TimeOfDay onTimeChange = TimeOfDay.now();
@@ -115,10 +117,10 @@ class _newTodoToKidState extends State<newTodoToKid> {
     for (DateTime aktDate = selectedFromDate; aktDate.isBefore(selectedToDate); aktDate = new DateTime(aktDate.year, aktDate.month, aktDate.day + 1)) {
       if (daysCheck[aktDate.weekday-1]) {
         var whenDate = aktDate.year.toString() + "-" +
-                       normalizeTimeMin(aktDate.month) + "-" +
-                       normalizeTimeMin(aktDate.day) + " " +
-                       normalizeTimeMin(onTimeChange.hour) + ":" +
-                       normalizeTimeMin(onTimeChange.minute) + ":" +
+                       util.normalizeTimeMin(aktDate.month) + "-" +
+                       util.normalizeTimeMin(aktDate.day) + " " +
+                       util.normalizeTimeMin(onTimeChange.hour) + ":" +
+                       util.normalizeTimeMin(onTimeChange.minute) + ":" +
                        "00";
         tasks.insertTodoList(kidsId, whenDate, taskId).then((value) => null);
       }
@@ -199,7 +201,7 @@ class _newTodoToKidState extends State<newTodoToKid> {
                 SizedBox(
                   width: 1.0,
                 ),
-                Text("Hánykor: " + "${onTimeChange.hour}:${normalizeTimeMin(onTimeChange.minute)}"),
+                Text("Hánykor: " + "${onTimeChange.hour}:${util.normalizeTimeMin(onTimeChange.minute)}"),
                 SizedBox(
                   height: 10.0,
                 ),
@@ -223,10 +225,4 @@ class _newTodoToKidState extends State<newTodoToKid> {
     );
   }
 
-
-  String normalizeTimeMin(int min) {
-    String retVal = "";
-    min < 10 ? retVal = "0" + min.toString() : retVal = min.toString();
-    return retVal;
-  }
 }

@@ -85,6 +85,24 @@ class Tasks with ChangeNotifier {
     }
   }
 
+  Future<void> setTodoCheck(String todoListId) async {
+    try {
+      final url = Uri.parse('${MainUrl}/set_todoCheck.php?todoListId=$todoListId');
+
+      final response = await http.post(url,
+          body: json.encode({
+          }));
+
+      final responseData = json.decode(response.body);
+
+      print(responseData);
+      if (response.statusCode != 200) {
+        throw HttpException("The statusCode is not equal 200!");
+      }
+    } catch (e) {
+      throw e;
+    }
+  }
 
 
 

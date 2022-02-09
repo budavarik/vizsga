@@ -107,6 +107,8 @@ class Auth with ChangeNotifier {
         'id': parentData.userId,
         'email': parentData.userEmail,
         'name': parentData.userName,
+        'kidId': responseData[0]['kidId'],
+        'kidName': responseData[0]['kidName'],
       });
 
       prefs.setString('userData', userData);

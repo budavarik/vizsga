@@ -6,12 +6,15 @@ import 'package:rest_api_login/utils/api.dart';
 import 'package:http/http.dart' as http;
 import 'package:rest_api_login/utils/http_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:rest_api_login/utils/util.dart';
 import '/models/models.dart';
 
 class Kids with ChangeNotifier {
+  Util util = new Util();
   List<String> kidData = [];
   List<String> kidTodoList = [];
   var MainUrl = Api.authUrl;
+
 
   Future<void> getKidsApi(String parentId) async {
     try {
@@ -145,6 +148,10 @@ class Kids with ChangeNotifier {
   }
 
   Future<void> getKidsTodos(String kidsId, String fromWhen, String toWhen) {
+    var fromParsedDate = DateTime.parse(fromWhen);
+    fromWhen = fromParsedDate.year.toString() + "-" + util.normalizeTimeMin(fromParsedDate.month) + "-" + util.normalizeTimeMin(fromParsedDate.day) + " " + "00:00:00";
+    var toParsedDate = DateTime.parse(fromWhen);
+    fromWhen = toParsedDate.year.toString() + "-" + util.normalizeTimeMin(toParsedDate.month) + "-" + util.normalizeTimeMin(toParsedDate.day) + " " + "00:00:00";
     return getKidsTodosApi(kidsId, fromWhen, toWhen);
   }
 

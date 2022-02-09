@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:rest_api_login/main.dart';
 import 'package:rest_api_login/providers/auth.dart';
 import 'package:rest_api_login/screens/home_Screen.dart';
+import 'package:rest_api_login/screens/kid_view_screen.dart';
 import 'package:rest_api_login/screens/select_kid_screen.dart';
 import 'package:rest_api_login/screens/signup_screen.dart';
 import 'package:rest_api_login/utils/http_exception.dart';
@@ -35,7 +36,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
       } else {
         await Provider.of<Auth>(context, listen: false)
-            .kidLogin(_authData['email'], _authData['password'], _authData['kidName']);
+            .kidLogin(_authData['email'], _authData['password'], _authData['kidName'])
+            .then((_) {
+          Navigator.push(context, MaterialPageRoute(builder: (context) => kidViewScreen()));
+        });
+
       }
     } on HttpException catch (e) {
       var errorMessage = 'Authentication Failed';
@@ -177,7 +182,6 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
-                              obscureText: true,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -187,7 +191,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     borderSide: BorderSide(color: Colors.white),
                                   ),
                                   prefixIcon: Icon(
-                                    Icons.android,
+                                    Icons.person,
                                     color: Colors.white,
                                   )),
                               onSaved: (value) {

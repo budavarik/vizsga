@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:rest_api_login/providers/auth.dart';
-import 'package:rest_api_login/screens/home_Screen.dart';
+import 'package:rest_api_login/screens/select_kid_screen.dart';
 import 'package:rest_api_login/screens/login_Screen.dart';
 import 'package:rest_api_login/utils/http_exception.dart';
 
@@ -27,10 +27,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
       await Provider.of<Auth>(context, listen: false)
           .signUp(_authData['email'], _authData['password'], _authData['name'], _authData['childName'])
           .then((_) {
-//        Navigator.of(context)
-//            .pushReplacement(MaterialPageRoute(builder: (ctx) => HomeScreen()));
-//        Navigator.of(context).pop();
-          Navigator.push(context, MaterialPageRoute(builder: (context) => HomeScreen()));
+          Provider.of<Auth>(context, listen: false).login(_authData['email'], _authData['password'])
+            .then((_) {
+            Navigator.push(context,
+                MaterialPageRoute(builder: (context) => SelectKidScreen()));
+          });
       });
     } on HttpException catch (e) {
       var errorMessage = 'Authentication Failed';
