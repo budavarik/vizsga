@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '/providers/tasks.dart';
 import 'select_kid_screen.dart';
-import 'package:rest_api_login/utils/util.dart';
+import 'package:vizsga_feladat/utils/util.dart';
 import '/providers/tasks.dart';
 
 class newTodoToKid extends StatefulWidget {

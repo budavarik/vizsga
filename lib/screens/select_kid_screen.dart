@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:rest_api_login/providers/kids.dart';
+import 'package:vizsga_feladat/providers/kids.dart';
 import 'task_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/models/models.dart';

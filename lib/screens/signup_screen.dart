@@ -1,10 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rest_api_login/providers/auth.dart';
-import 'package:rest_api_login/screens/select_kid_screen.dart';
-import 'package:rest_api_login/screens/login_Screen.dart';
-import 'package:rest_api_login/utils/http_exception.dart';
+import 'package:vizsga_feladat/providers/auth.dart';
+import 'package:vizsga_feladat/screens/select_kid_screen.dart';
+import 'package:vizsga_feladat/screens/login_Screen.dart';
+import 'package:vizsga_feladat/utils/http_exception.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override

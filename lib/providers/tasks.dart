@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
-import 'package:rest_api_login/utils/api.dart';
+import 'package:vizsga_feladat/utils/api.dart';
 import 'package:http/http.dart' as http;
-import 'package:rest_api_login/utils/http_exception.dart';
+import 'package:vizsga_feladat/utils/http_exception.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class Tasks with ChangeNotifier {

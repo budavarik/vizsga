@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:rest_api_login/providers/kids.dart';
-import 'package:rest_api_login/providers/tasks.dart';
+import 'package:vizsga_feladat/providers/kids.dart';
+import 'package:vizsga_feladat/providers/tasks.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rest_api_login/main.dart';
-import 'package:rest_api_login/providers/auth.dart';
-import 'package:rest_api_login/screens/home_Screen.dart';
-import 'package:rest_api_login/screens/kid_view_screen.dart';
-import 'package:rest_api_login/screens/select_kid_screen.dart';
-import 'package:rest_api_login/screens/signup_screen.dart';
-import 'package:rest_api_login/utils/http_exception.dart';
+import 'package:vizsga_feladat/main.dart';
+import 'package:vizsga_feladat/providers/auth.dart';
+import 'package:vizsga_feladat/screens/home_Screen.dart';
+import 'package:vizsga_feladat/screens/kid_view_screen.dart';
+import 'package:vizsga_feladat/screens/select_kid_screen.dart';
+import 'package:vizsga_feladat/screens/signup_screen.dart';
+import 'package:vizsga_feladat/utils/http_exception.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = "/login";

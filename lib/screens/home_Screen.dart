@@ -2,8 +2,8 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:rest_api_login/providers/auth.dart';
-import 'package:rest_api_login/screens/login_Screen.dart';
+import 'package:vizsga_feladat/providers/auth.dart';
+import 'package:vizsga_feladat/screens/login_Screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomeScreen extends StatefulWidget {
