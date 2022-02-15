@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/providers/tasks.dart';
 import 'newTodotoKid.dart';
@@ -21,6 +22,7 @@ class _TaskListState extends State<TaskList> {
   TextEditingController nameController = TextEditingController();
   List<Map<String, Object>> taskList = [];
   List<Map<String, Object>> extractedKidsData = [];
+  String selectedKidName = "";
 
   _TaskListState(this.selectedKid);
 
@@ -58,6 +60,9 @@ class _TaskListState extends State<TaskList> {
       List<String> decoded = pref2.getStringList('kidsData');
       for (int i = 0; i < decoded.length; i++) {
         var tmp = json.decode(decoded[i]) as Map<String, Object>;
+        if (tmp['id'] == selectedKid) {
+          selectedKidName = tmp['name'];
+        }
         extractedKidsData.add(tmp);
         retVal = "OK";
       }
@@ -72,11 +77,11 @@ class _TaskListState extends State<TaskList> {
       itemCount: taskList.length,
       itemBuilder: (context, i) {
         return Card(
-          shadowColor: Colors.black87,
+          shadowColor: Colors.black,
           margin: EdgeInsets.fromLTRB(10, 5, 5, 10),
           elevation: 10,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0),
+            borderRadius: BorderRadius.circular(10),
           ),
           child: Container(
             child: ListTile(
@@ -96,7 +101,13 @@ class _TaskListState extends State<TaskList> {
               ),
               onTap: () {
                 //selectTask(context, taskList[i]['id'], taskList[i]['task']);
-                Navigator.push(context, MaterialPageRoute(builder: (context) => newTodoToKid(kidsId: selectedKid, taskId: taskList[i]['id'], taskName: taskList[i]['task'])));
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => newTodoToKid(
+                            kidsId: selectedKid,
+                            taskId: taskList[i]['id'],
+                            taskName: taskList[i]['task'])));
               },
             ),
           ),
@@ -162,6 +173,24 @@ class _TaskListState extends State<TaskList> {
     );
   }
 
+  dynamic ujTetelGomb() {
+    return AnimatedButton(
+      width: 90,
+      height: 50,
+      text: 'Új tétel',
+      borderRadius: 20,
+      selectedBackgroundColor: Colors.transparent,
+      selectedTextColor: Colors.greenAccent,
+      transitionType: TransitionType.BOTTOM_TO_TOP,
+      isReverse: true,
+      onPress: () {
+        newTask();
+      },
+      textStyle: TextStyle(
+          fontSize: 18, color: Colors.deepOrange, fontWeight: FontWeight.w900),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -173,35 +202,56 @@ class _TaskListState extends State<TaskList> {
           duration: Duration(seconds: 5),
           child: Center(
             child: Column(children: <Widget>[
-              taskListBuilder(),
               SizedBox(
-                height: 5.0,
+                height: 10,
               ),
-              Column(
-                children: [
-                  Container(
-                    alignment: Alignment.topRight,
-                    padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                    child: ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        primary: Colors.blue,
-                        elevation: 15,
-                        padding: const EdgeInsets.all(0.0),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30.0),
+              Container(
+                width: MediaQuery.of(context).size.width - 20,
+                height: 80,
+                padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+                decoration: BoxDecoration(
+                    border: Border.all(color: Colors.black),
+                    borderRadius: BorderRadius.circular(10.0),
+                    gradient: LinearGradient(
+                      begin: Alignment.topRight,
+                      end: Alignment.bottomLeft,
+                      colors: [
+                        Colors.white12,
+                        Colors.white,
+                      ],
+                    )),
+                child: Row(
+
+                    children: <Widget>[
+                      Expanded(
+                        flex: 8,
+                        child: Container(
+                          child: Row(
+                            children: [
+                            Text(
+                            "Kiválasztott felhasználó: $selectedKidName",
+                            style: TextStyle(fontWeight: FontWeight.bold),
+                          ),
+                          ],
+                        ),
                         ),
                       ),
-                      onPressed: () {
-                        newTask();
-                      },
-                      child: Text(
-                        "+",
-                        style: TextStyle(color: Colors.white),
+                      Expanded(
+                        flex: 2,
+                        child: Container(
+                          child: Row(
+                            children: [
+                              ujTetelGomb(),
+                            ],
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ],
+                ]),
               ),
+              SizedBox(
+                height: 10,
+              ),
+              taskListBuilder(),
             ]),
           ),
         ),

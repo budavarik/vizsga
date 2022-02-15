@@ -64,13 +64,14 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     // TODO: implement build
     return Scaffold(
+
       // backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Container(
           child: Stack(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.65,
+                height: 500,
                 width: MediaQuery.of(context).size.width * 0.85,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -116,6 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -148,6 +150,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               obscureText: true,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -182,6 +185,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -224,7 +228,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                       builder: (ctx) => SignUpScreen()));
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.only(top: 90),
+                                  padding: EdgeInsets.only(top: 0),
                                   child: Text(
                                     "Create Account",
                                     style: TextStyle(

@@ -150,8 +150,8 @@ class Kids with ChangeNotifier {
   Future<void> getKidsTodos(String kidsId, String fromWhen, String toWhen) {
     var fromParsedDate = DateTime.parse(fromWhen);
     fromWhen = fromParsedDate.year.toString() + "-" + util.normalizeTimeMin(fromParsedDate.month) + "-" + util.normalizeTimeMin(fromParsedDate.day) + " " + "00:00:00";
-    var toParsedDate = DateTime.parse(fromWhen);
-    fromWhen = toParsedDate.year.toString() + "-" + util.normalizeTimeMin(toParsedDate.month) + "-" + util.normalizeTimeMin(toParsedDate.day) + " " + "00:00:00";
+    var toParsedDate = DateTime.parse(toWhen);
+    toWhen = toParsedDate.year.toString() + "-" + util.normalizeTimeMin(toParsedDate.month) + "-" + util.normalizeTimeMin(toParsedDate.day) + " " + "23:59:59";
     return getKidsTodosApi(kidsId, fromWhen, toWhen);
   }
 

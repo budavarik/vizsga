@@ -58,7 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           child: Stack(
             children: <Widget>[
               Container(
-                height: MediaQuery.of(context).size.height * 0.85,
+                height: 600,
                 width: MediaQuery.of(context).size.width * 0.85,
                 decoration: BoxDecoration(
                     borderRadius: BorderRadius.only(
@@ -104,6 +104,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -136,6 +137,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               obscureText: true,
                               controller: _passwordController,
                               style: TextStyle(color: Colors.white),
@@ -170,6 +172,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               obscureText: true,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
@@ -197,6 +200,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -221,6 +225,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 12),
                             ),
                             TextFormField(
+                              cursorColor: Colors.white,
                               style: TextStyle(color: Colors.white),
                               decoration: InputDecoration(
                                   enabledBorder: UnderlineInputBorder(
@@ -263,8 +268,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       builder: (ctx) => LoginScreen()));
                                 },
                                 child: Container(
-                                  padding: EdgeInsets.only(top: 90),
-                                  child: Text(
+                                    child: Text(
                                     "Sign In",
                                     style: TextStyle(
                                         decoration: TextDecoration.underline,

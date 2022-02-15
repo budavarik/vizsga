@@ -27,7 +27,7 @@ class Auth with ChangeNotifier {
     if (!pref.containsKey('userData')) {
       return false;
     }
-
+/*
     final extractedUserData =
         json.decode(pref.getString('userData')) as Map<String, Object>;
 
@@ -38,10 +38,10 @@ class Auth with ChangeNotifier {
     parentData.userId = extractedUserData['id'];
     parentData.userEmail = extractedUserData['email'];
     parentData.userName = extractedUserData['name'];
-
+*/
     notifyListeners();
-
-    return true;
+    var extractedUserData = json.decode(pref.getString('userData')) as Map<String, Object>;
+    return (extractedUserData['kidName'] != null && extractedUserData['kidName'] != "");
   }
 
 

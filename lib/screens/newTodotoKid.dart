@@ -146,7 +146,10 @@ class _newTodoToKidState extends State<newTodoToKid> {
                 child: Text('Mentés'),
                 onPressed: () {
                   createTodoList();
-                  Navigator.push(context,MaterialPageRoute(builder: (context) => SelectKidScreen()));
+                  Navigator.pop(context);
+                  Navigator.pop(context);
+
+                  //Navigator.push(context,MaterialPageRoute(builder: (context) => SelectKidScreen()));
                 }),
           ],
         ),

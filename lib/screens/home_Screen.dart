@@ -23,7 +23,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
    void getUserData() async {
     final pref = await SharedPreferences.getInstance();
-    extractedUserData = json.decode(pref.getString('userData')) as Map<String, Object>;
+    if (pref.containsKey('userData')) {
+      extractedUserData = json.decode(pref.getString('userData')) as Map<String, Object>;
+    }
   }
 
   @override

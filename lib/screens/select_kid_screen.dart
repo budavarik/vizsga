@@ -1,8 +1,12 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_animated_button/flutter_animated_button.dart';
+import 'package:provider/provider.dart';
 import 'package:vizsga_feladat/providers/kids.dart';
+import '../providers/auth.dart';
 import 'task_list.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '/models/models.dart';
@@ -17,13 +21,14 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
   List<Map<String, Object>> extractedKidsData = [];
   List<Map<String, Object>> extractedKidTodoDatas = [];
   Kids kids = new Kids();
-  String selectedKid;
+  String selectedKid = null;
   List<String> kidsMenu = [];
   List<KidTodoList> kidTodoList = [];
   DateTime selectedFromDate = DateTime.now();
   DateTime selectedToDate = DateTime.now();
   bool toggleFrom = false;
   bool toggleTo = false;
+  bool voltSzures = false;
 
   @override
   void initState() {
@@ -54,6 +59,7 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
 
   Future<String> getKidsData() async {
     String retVal = null;
+    kidsMenu = [];
     final pref2 = await SharedPreferences.getInstance().then((pref2) {
       List<String> decoded = pref2.getStringList('kidsData');
       for (int i = 0; i < decoded.length; i++) {
@@ -95,9 +101,25 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
 
   Future<void> _selectFromDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                surface: Colors.grey,
+                onSurface: Colors.black,
+              ),
+              dialogBackgroundColor: Colors.grey,
+            ),
+            child: child,
+          );
+        },
+        cancelText: "Mégsem",
+        confirmText: "Kiválaszt",
         context: context,
         initialDate: selectedFromDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(2020, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedFromDate)
       setState(() {
@@ -107,9 +129,25 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
 
   Future<void> _selectToDate(BuildContext context) async {
     final DateTime picked = await showDatePicker(
+        builder: (BuildContext context, Widget child) {
+          return Theme(
+            data: ThemeData.dark().copyWith(
+              colorScheme: ColorScheme.dark(
+                primary: Colors.white,
+                onPrimary: Colors.black,
+                surface: Colors.grey,
+                onSurface: Colors.black,
+              ),
+              dialogBackgroundColor: Colors.grey,
+            ),
+            child: child,
+          );
+        },
+        cancelText: "Mégsem",
+        confirmText: "Kiválaszt",
         context: context,
         initialDate: selectedToDate,
-        firstDate: DateTime(2015, 8),
+        firstDate: DateTime(2020, 8),
         lastDate: DateTime(2101));
     if (picked != null && picked != selectedToDate)
       setState(() {
@@ -124,15 +162,22 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
       itemCount: extractedKidTodoDatas.length,
       itemBuilder: (context, i) {
         return Card(
-          margin: EdgeInsets.zero,
-          elevation: 0.4,
+          margin: EdgeInsets.fromLTRB(10, 5, 10, 10),
+          shadowColor: Colors.black,
+          elevation: 5.0,
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(0),
+            borderRadius: BorderRadius.circular(15.0),
           ),
           child: Container(
             child: ListTile(
               leading: CircleAvatar(
-                  child: Image.network("https://via.placeholder.com/150")),
+                  backgroundColor: Colors.transparent,
+                  child: (extractedKidTodoDatas[i]['checkDate'] ==
+                          '0000-00-00 00:00:00'
+                      ? Image.network(
+                          "https://e7.pngegg.com/pngimages/972/936/png-clipart-exclamation-mark-dijak-question-mark-school-interjection-exclamation-mark-miscellaneous-child-thumbnail.png")
+                      : Image.network(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ20JjWhOTQ38G0XIYlBH_81IHv2R9yUjld3w&usqp=CAU"))),
               title: Text(
                 extractedKidTodoDatas[i]['task'],
                 style: TextStyle(
@@ -147,29 +192,40 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
               ),
               trailing: Icon(Icons.delete, color: Colors.black87, size: 30.0),
               onTap: () {
-
                 showDialog(
                   context: context,
                   builder: (context) => AlertDialog(
-
+                    titleTextStyle: TextStyle(
+                      color: Colors.red,
+                    ),
                     shape: RoundedRectangleBorder(
-                        borderRadius:
-                        BorderRadius.all(
-                            Radius.circular(10.0))),
-                    title: Text("Biztos vagy benne?"),
+                        borderRadius: BorderRadius.all(Radius.circular(10.0))),
+                    title: Text(
+                      "Biztos vagy benne?",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
                     actions: [
                       TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                        ),
                         child: Text("Mégsem"),
                         onPressed: () {
                           Navigator.pop(context);
                         },
                       ),
                       TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.white,
+                        ),
                         child: Text("Törlés"),
                         onPressed: () async {
                           Navigator.pop(context);
                           if (extractedKidTodoDatas[i]['id'] != null) {
-                            await kids.delKidTodoData(extractedKidTodoDatas[i]['id']).then((value) {
+                            await kids
+                                .delKidTodoData(extractedKidTodoDatas[i]['id'])
+                                .then((value) {
                               getKidTasks();
                             });
                           }
@@ -186,24 +242,90 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
     );
   }
 
+  void handleClick(String value) async {
+    switch (value) {
+      case 'Kilépés':
+        final pref = await SharedPreferences.getInstance();
+        pref.clear();
+        Provider.of<Auth>(context, listen: false).logout();
+        Navigator.of(context).pushReplacementNamed("/");
+    //Navigator.push(context, MaterialPageRoute(builder: (context) => LoginScreen()));
+    }
+  }
+
   dynamic setAppBar() {
     return AppBar(
       title: Row(
         children: <Widget>[
           Text(extractedUserData != null ? extractedUserData['name'] : "Home"),
-          SizedBox(
-            width: 50,
-          ),
-          FlatButton(
-              padding: EdgeInsets.fromLTRB(10, 20, 0, 0),
-              color: Colors.amber,
-              shape: RoundedRectangleBorder(side: BorderSide.none),
-              child: Text('Szűrés'),
-              onPressed: () {
-                getKidTasks();
-              }),
         ],
       ),
+      actions: <Widget>[
+        PopupMenuButton<String>(
+          onSelected: handleClick,
+          itemBuilder: (BuildContext context) {
+            return {'Kilépés'}.map((String choice) {
+              return PopupMenuItem<String>(
+                value: choice,
+                child: Text(choice),
+              );
+            }).toList();
+          },
+        ),
+      ],
+    );
+  }
+
+  dynamic szuresGomb() {
+    return AnimatedButton(
+      width: 60,
+      height: 30,
+      text: 'Szűrés',
+      backgroundColor: Colors.transparent,
+      selectedBackgroundColor: Colors.transparent,
+      selectedTextColor: Colors.greenAccent,
+      transitionType: TransitionType.BOTTOM_TO_TOP,
+      isReverse: true,
+      onPress: () {
+        voltSzures = true;
+        getKidTasks().then((value) => {
+              if (mounted) {setState(() {})}
+            });
+      },
+      textStyle: TextStyle(
+          fontSize: 18, color: Colors.deepOrange, fontWeight: FontWeight.w900),
+    );
+  }
+
+  dynamic ujTetelGomb() {
+    return AnimatedButton(
+      width: 90,
+      height: 50,
+      text: 'Új tétel',
+      borderRadius: 20,
+      selectedBackgroundColor: Colors.transparent,
+      selectedTextColor: Colors.greenAccent,
+      transitionType: TransitionType.BOTTOM_TO_TOP,
+      isReverse: true,
+      onPress: () {
+        var index;
+        for (var value in extractedKidsData) {
+          if (value.values.contains(selectedKid)) {
+            index = value['id'];
+          }
+        }
+        Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => TaskList(selectedKid: index)))
+            .then((value) {
+              getKidTasks().then((value) => {
+                if (mounted) {setState(() {})}
+              });
+            });
+      },
+      textStyle: TextStyle(
+          fontSize: 18, color: Colors.deepOrange, fontWeight: FontWeight.w900),
     );
   }
 
@@ -213,98 +335,98 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
     return Scaffold(
       appBar: setAppBar(),
       body: SingleChildScrollView(
-          child: Center(
+          child: Container(
+        padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
         child: Column(children: <Widget>[
-          Row(
-            children: [
-              DropdownButton<String>(
-                hint: Text('Select kid name'),
-                value: selectedKid,
-                onChanged: (newValue) {
-                  setState(() {
-                    selectedKid = newValue;
-                  });
-                },
-                items: kidsMenu.map((location) {
-                  return DropdownMenuItem(
-                    child: Text(location),
-                    value: location,
-                  );
-                }).toList(),
-              ),
-              Text("${selectedFromDate.toLocal()}".split(' ')[0]),
-              SizedBox(
-                width: 1.0,
-              ),
-              IconButton(
-                  icon: toggleFrom
-                      ? Icon(Icons.favorite_border)
-                      : Icon(
-                          Icons.favorite,
-                        ),
-                  onPressed: () {
-                    toggleFrom = !toggleFrom;
-                    _selectFromDate(context);
-                  }),
-              SizedBox(
-                width: 1.0,
-              ),
-              Text("--"),
-              SizedBox(
-                width: 1.0,
-              ),
-              Text("${selectedToDate.toLocal()}".split(' ')[0]),
-              SizedBox(
-                width: 1.0,
-              ),
-              IconButton(
-                  icon: toggleTo
-                      ? Icon(Icons.favorite_border)
-                      : Icon(
-                          Icons.favorite,
-                        ),
-                  onPressed: () {
-                    toggleTo = !toggleTo;
-                    _selectToDate(context);
-                  }),
-            ],
+          Container(
+            padding: EdgeInsets.fromLTRB(10, 10, 10, 0),
+            decoration: BoxDecoration(
+                border: Border.all(color: Colors.black),
+                borderRadius: BorderRadius.circular(10.0),
+                gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Colors.white12,
+                    Colors.white,
+                  ],
+                )),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    DropdownButton<String>(
+                      hint: Text('Gyerek neve'),
+                      value: selectedKid,
+                      onChanged: (newValue) {
+                        setState(() {
+                          selectedKid = newValue;
+                        });
+                      },
+                      items: kidsMenu.map((location) {
+                        return DropdownMenuItem(
+                          child: Text(location),
+                          value: location,
+                        );
+                      }).toList(),
+                    ),
+                    SizedBox(
+                      width: 80.0,
+                    ),
+                    szuresGomb(),
+                    Container(
+                        width: 210,
+                        height: 50,
+                        alignment: Alignment.topRight,
+                        child: Column(
+                          children: [
+                            ((selectedKid != null &&
+                                    selectedKid != "" &&
+                                    voltSzures)
+                                ? ujTetelGomb()
+                                : Text("")),
+                          ],
+                        )),
+                  ],
+                ),
+                Row(
+                  children: [
+                    Text("Dátumtól: " +
+                        "${selectedFromDate.toLocal()}".split(' ')[0]),
+                    SizedBox(
+                      width: 1.0,
+                    ),
+                    IconButton(
+                        icon: toggleFrom
+                            ? Icon(Icons.favorite_border)
+                            : Icon(
+                                Icons.favorite,
+                              ),
+                        onPressed: () {
+                          toggleFrom = !toggleFrom;
+                          _selectFromDate(context);
+                        }),
+                    Text("Dátumig: " +
+                        "${selectedToDate.toLocal()}".split(' ')[0]),
+                    SizedBox(
+                      width: 1.0,
+                    ),
+                    IconButton(
+                        icon: toggleTo
+                            ? Icon(Icons.favorite_border)
+                            : Icon(
+                                Icons.favorite,
+                              ),
+                        onPressed: () {
+                          toggleTo = !toggleTo;
+                          _selectToDate(context);
+                        }),
+                  ],
+                ),
+              ],
+            ),
           ),
           todoListBuilder(),
-          SizedBox(
-            height: 5.0,
-          ),
-          Column(
-            children: [
-              Container(
-                alignment: Alignment.topRight,
-                padding: const EdgeInsets.fromLTRB(0, 0, 10, 0),
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.blue,
-                    elevation: 15,
-                    padding: const EdgeInsets.all(12.0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30.0),
-                    ),
-                  ),
-                  onPressed: () {
-                    var index;
-                    for (var value in extractedKidsData) {
-                      if (value.values.contains(selectedKid)) {
-                        index = value['id'];
-                      }
-                    }
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => TaskList(selectedKid: index)));
-
-                  },
-                  child: Text(
-                    "+",
-                    style: TextStyle(color: Colors.white),
-                  ),
-                ),
-              ),
-            ],
-          ),
         ]),
       )),
     );
