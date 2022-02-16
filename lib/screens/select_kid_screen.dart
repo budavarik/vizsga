@@ -175,9 +175,9 @@ class _SelectKidScreenState extends State<SelectKidScreen> {
                   child: (extractedKidTodoDatas[i]['checkDate'] ==
                           '0000-00-00 00:00:00'
                       ? Image.network(
-                          "https://e7.pngegg.com/pngimages/972/936/png-clipart-exclamation-mark-dijak-question-mark-school-interjection-exclamation-mark-miscellaneous-child-thumbnail.png")
+                          "https://crossapp.hu/todoList/images/pirosFelkijaltojel.png")
                       : Image.network(
-                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ20JjWhOTQ38G0XIYlBH_81IHv2R9yUjld3w&usqp=CAU"))),
+                          "https://crossapp.hu/todoList/images/zoldPipa.png"))),
               title: Text(
                 extractedKidTodoDatas[i]['task'],
                 style: TextStyle(
