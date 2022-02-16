@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:vizsga_feladat/providers/auth.dart';
-import 'package:vizsga_feladat/screens/home_Screen.dart';
 import 'package:vizsga_feladat/screens/login_Screen.dart';
 import 'package:vizsga_feladat/screens/select_kid_screen.dart';
 import 'package:vizsga_feladat/screens/kid_view_screen.dart';
@@ -43,7 +42,7 @@ class _MyAppState extends State<MyApp> {
             visualDensity: VisualDensity.adaptivePlatformDensity,
           ),
           home: auth.parentData.isAuth
-              ? HomeScreen()
+              ? LoginScreen()
               : FutureBuilder(
                   future: auth.tryautoLogin(),
                   builder: (ctx, snapshot) =>

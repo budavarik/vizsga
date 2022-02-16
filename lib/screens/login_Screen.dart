@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:vizsga_feladat/main.dart';
 import 'package:vizsga_feladat/providers/auth.dart';
-import 'package:vizsga_feladat/screens/home_Screen.dart';
 import 'package:vizsga_feladat/screens/kid_view_screen.dart';
 import 'package:vizsga_feladat/screens/select_kid_screen.dart';
 import 'package:vizsga_feladat/screens/signup_screen.dart';
